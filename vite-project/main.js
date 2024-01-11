@@ -1,8 +1,13 @@
 import './style.css'
 
+
+let viewed = []
 async function mainCall(){
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`)
   const data = await response.json(); 
+  let categoriesList = []
+  data.categories.forEach(catergory => {categoriesList.push(catergory)})
+  console.log(categoriesList)
   data.categories.forEach(catergory => {
     document.getElementById("options").insertAdjacentHTML("afterbegin",`
     <input type="checkbox" class="box" value="${catergory.strCategory}">
@@ -28,7 +33,10 @@ async function APICall(input){
   document.getElementById("selection").insertAdjacentHTML("beforeend",`<h2>${input}</h2>`)
   data.meals.forEach(dish => {document.getElementById("selection").insertAdjacentHTML("beforeend",`<p>${dish.strMeal}</p><img class="${input}" id="${dish.idMeal}"src="${dish.strMealThumb}">`)})
   document.querySelectorAll(`.${input}`).forEach(img => {
-    img.addEventListener("click", (event) => {getInfo(img.id)});
+    img.addEventListener("click", (event) => {
+      viewed.push(img)
+      getInfo(img.id)
+    });
   })
 }
 
@@ -36,10 +44,11 @@ async function APICall(input){
 async function getInfo(id){
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
   const data = await response.json(); 
-  console.log(id)
+  console.log(viewed[0])
+  document.getElementById("selection").insertAdjacentHTML("beforeend",viewed[0])
   document.getElementById("info").innerHTML = ""
-  console.log(document.getElementById("info").innerHTML)
+  console.log(viewed)
   console.log(data)
-  document.getElementById("info").insertAdjacentHTML("afterbegin",data.meals[0].strInstructions)
+  document.getElementById("info").insertAdjacentHTML("afterbegin",`<p>${data.meals[0].strInstructions}</p>`)
 }
 mainCall()

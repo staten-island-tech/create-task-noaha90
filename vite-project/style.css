@@ -3,6 +3,28 @@ img{
     width: auto;
 }
 
+#info{
+    width: 60%;
+}
+
+#selection{
+    width:20%;
+    height: 100%;
+    height: 80vh;
+    overflow: auto;
+}
+#options{
+    margin: 2vh;
+    display: flex;
+    justify-content:space-between;
+}
+
+#categories{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 #gal{
     display: flex;

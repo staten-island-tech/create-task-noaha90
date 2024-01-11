@@ -4,7 +4,7 @@ async function mainCall(){
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`)
   const data = await response.json(); 
   data.categories.forEach(catergory => {
-    document.getElementById("categories").insertAdjacentHTML("afterbegin",`
+    document.getElementById("options").insertAdjacentHTML("afterbegin",`
     <input type="checkbox" class="box" value="${catergory.strCategory}">
     <label for="${catergory.strCategory}">${catergory.strCategory}</label><br>`
     )});

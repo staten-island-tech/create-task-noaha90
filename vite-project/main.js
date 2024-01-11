@@ -16,18 +16,30 @@ async function mainCall(){
            APICall(box.value)  
         }
         })
-        console.log(document.getElementsByTagName('img'))
-        document.getElementsByTagName('img').forEach(img => {console.log(img)})
     }); 
   }
 
 
 async function APICall(input){
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${input}`)
+  console.log(response.url)
   const data = await response.json(); 
   console.log(data)
   document.getElementById("gal").insertAdjacentHTML("beforeend",`<h2>${input}</h2>`)
-  data.meals.forEach(dish => {document.getElementById("gal").insertAdjacentHTML("beforeend",`<p>${dish.strMeal}</p><img class="dish" src="${dish.strMealThumb}">`)})
+  data.meals.forEach(dish => {document.getElementById("gal").insertAdjacentHTML("beforeend",`<p>${dish.strMeal}</p><img class="${input}" id="${dish.idMeal}"src="${dish.strMealThumb}">`)})
+  document.querySelectorAll(`.${input}`).forEach(img => {
+    img.addEventListener("click", (event) => {getInfo(img.id)});
+  })
 }
 
+
+async function getInfo(id){
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
+  const data = await response.json(); 
+  console.log(id)
+  document.getElementById("info").innerHTML = ""
+  console.log(document.getElementById("info").innerHTML)
+  console.log(data.meals[0].strInstructions)
+  document.getElementById("info").insertAdjacentHTML("beforebegin",data.meals[0].strInstructions)
+}
 mainCall()

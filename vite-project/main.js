@@ -34,21 +34,18 @@ async function APICall(input){
   data.meals.forEach(dish => {document.getElementById("selection").insertAdjacentHTML("beforeend",`<p>${dish.strMeal}</p><img class="${input}" id="${dish.idMeal}"src="${dish.strMealThumb}">`)})
   document.querySelectorAll(`.${input}`).forEach(img => {
     img.addEventListener("click", (event) => {
-      viewed.push(img)
-      getInfo(img.id)
+      console.log(img)
+      getInfo(img.id,img)
     });
   })
 }
 
 
-async function getInfo(id){
+async function getInfo(id,img){
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
   const data = await response.json(); 
-  console.log(viewed[0])
-  document.getElementById("selection").insertAdjacentHTML("beforeend",viewed[0])
+  document.getElementById("favorites").cloneNode(img)
   document.getElementById("info").innerHTML = ""
-  console.log(viewed)
-  console.log(data)
   document.getElementById("info").insertAdjacentHTML("afterbegin",`<p>${data.meals[0].strInstructions}</p>`)
 }
 mainCall()

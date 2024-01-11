@@ -3,3 +3,7 @@ img{
     width: auto;
 }
 
+
+#gal{
+    display: flex;
+}

@@ -7,12 +7,27 @@ img{
 }
 
 #info{
-    width: 60%;
+    width: 70%;
+    overflow: auto;
+    flex-direction: column;
+    background-color:ghostwhite;
 }
 
+.classbox{
+    border: 2px black solid;
+}
 #selection{
-    width:20%;
+    width:30%;
     height: 100%;
+    background-color:ghostwhite;
+}
+
+h2{
+    font-size: 3rem;
+}
+h3{
+    font-size: 2rem;
+    text-align: center;
 }
 #options{
     margin: 2vh;
@@ -23,11 +38,11 @@ img{
     margin: 10px;
 }
 #favorites{
-    width: 20%;
+    width: 0%;
 }
 
 #gal{
-    height: 60vh;
+    height: 70vh;
     display: flex;
 }
 
@@ -41,4 +56,18 @@ img{
 
 #info,#selection,#gal,#favorites{
     border: 1px black solid;
+}
+
+.infobox{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px black solid;
+    border-bottom: 0px;
+}
+
+
+.foodInfo{
+    font-size: 1.2rem;
+    text-align: center;
 }

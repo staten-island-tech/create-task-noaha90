@@ -1,13 +1,10 @@
 import './style.css'
 
-
 let viewed = []
+
 async function mainCall(){
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`)
   const data = await response.json(); 
-  let categoriesList = []
-  data.categories.forEach(catergory => {categoriesList.push(catergory)})
-  console.log(categoriesList)
   data.categories.forEach(catergory => {
     document.getElementById("options").insertAdjacentHTML("afterbegin",`
     <input type="checkbox" class="box" value="${catergory.strCategory}">
@@ -34,18 +31,32 @@ async function APICall(input){
   data.meals.forEach(dish => {document.getElementById("selection").insertAdjacentHTML("beforeend",`<p>${dish.strMeal}</p><img class="${input}" id="${dish.idMeal}"src="${dish.strMealThumb}">`)})
   document.querySelectorAll(`.${input}`).forEach(img => {
     img.addEventListener("click", (event) => {
-      console.log(img)
-      getInfo(img.id,img)
+      document.getElementById("info").innerHTML = ""
+      displayMain(img.id)
+      if(viewed.includes(img.id) === false){
+        console.log(viewed.length)
+        if(viewed.length > 4){
+          viewed.shift();
+        }
+          viewed.push(img.id)
+}
     });
   })
 }
 
 
-async function getInfo(id,img){
+async function displayMain(id){
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
   const data = await response.json(); 
-  document.getElementById("favorites").cloneNode(img)
-  document.getElementById("info").innerHTML = ""
-  document.getElementById("info").insertAdjacentHTML("afterbegin",`<p>${data.meals[0].strInstructions}</p>`)
+  console.log(data)
+  document.getElementById("info").insertAdjacentHTML("afterbegin",`<div class="infobox"><h1>${data.meals[0].strMeal}</h1><div class="foodInfo"><p>Type: ${data.meals[0].strCategory}          </p><p>Region: ${data.meals[0].strArea}</p></div><img id="${id}"src="${data.meals[0].strMealThumb}"><p>${data.meals[0].strInstructions}</p></div>`)
 }
 mainCall()
+
+
+document.getElementById("history").addEventListener("click", (event) => {
+  event.preventDefault()
+  console.log(viewed)
+  document.getElementById("info").innerHTML = ""
+  viewed.forEach(dish =>displayMain(dish))
+})

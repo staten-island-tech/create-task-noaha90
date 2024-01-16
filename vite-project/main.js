@@ -21,12 +21,9 @@ async function mainCall(){
     }); 
   }
 
-
 async function APICall(input){
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${input}`)
-  console.log(response.url)
   const data = await response.json(); 
-  console.log(data)
   document.getElementById("selection").insertAdjacentHTML("beforeend",`<h2>${input}</h2>`)
   data.meals.forEach(dish => {document.getElementById("selection").insertAdjacentHTML("beforeend",`<p>${dish.strMeal}</p><img class="${input}" id="${dish.idMeal}"src="${dish.strMealThumb}">`)})
   document.querySelectorAll(`.${input}`).forEach(img => {
@@ -39,20 +36,18 @@ async function APICall(input){
           viewed.shift();
         }
           viewed.push(img.id)
-}
+      }
     });
   })
 }
 
-
 async function displayMain(id){
   const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
   const data = await response.json(); 
-  console.log(data)
-  document.getElementById("info").insertAdjacentHTML("afterbegin",`<div class="infobox"><h1>${data.meals[0].strMeal}</h1><div class="foodInfo"><p>Type: ${data.meals[0].strCategory}          </p><p>Region: ${data.meals[0].strArea}</p></div><img id="${id}"src="${data.meals[0].strMealThumb}"><p>${data.meals[0].strInstructions}</p></div>`)
+  document.getElementById("info").insertAdjacentHTML("afterbegin",`<div class="infobox"><h2>${data.meals[0].strMeal}</h2><div class="foodInfo"><p>Type: ${data.meals[0].strCategory}</p><p>Region: ${data.meals[0].strArea}</p></div><img id="${id}"src="${data.meals[0].strMealThumb}"><p>${data.meals[0].strInstructions}</p></div>`)
 }
-mainCall()
 
+mainCall()
 
 document.getElementById("history").addEventListener("click", (event) => {
   event.preventDefault()
@@ -60,3 +55,5 @@ document.getElementById("history").addEventListener("click", (event) => {
   document.getElementById("info").innerHTML = ""
   viewed.forEach(dish =>displayMain(dish))
 })
+
+//Credit To TheMealDB for API
